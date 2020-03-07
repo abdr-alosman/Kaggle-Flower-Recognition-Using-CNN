@@ -1,7 +1,7 @@
 # Kaggle-Flower-Recognition-Using-CNN
 
 This project uses a Convolutional Neural Network (CNN) to predict flowers of 5 types using the flower recognition dataset on Kaggle.
-Link to the data: https://www.kaggle.com/alxmamaev/flowers-recognition 
+Link to the data: https://www.kaggle.com/alxmamaev/flowers-recognition </br>
 There are 5 types of flowers that are predicted and trained on:
 
 Daisy </br>
