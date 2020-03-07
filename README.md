@@ -1,7 +1,7 @@
 # Kaggle-Flower-Recognition-Using-CNN
 
 This project uses a Convolutional Neural Network (CNN) to predict flowers of 5 types using the flower recognition dataset on Kaggle.
-https://www.kaggle.com/alxmamaev/flowers-recognition 
+Link to the data: https://www.kaggle.com/alxmamaev/flowers-recognition 
 There are 5 types of flowers that are predicted and trained on:
 
 Daisy </br>
@@ -18,4 +18,4 @@ I use a Pretrained ResNet-50 convolutional neural network model to do training a
 categorical_crossentropy is used for loss and Adam is used as the optimizer. I use ReLu within my layers and softmax as the activation function. Within my CNN, I take advantage of avgpooling.
 
 
-I have managed a 87% accuracy during training.
+I have managed a 87% accuracy during testing.
