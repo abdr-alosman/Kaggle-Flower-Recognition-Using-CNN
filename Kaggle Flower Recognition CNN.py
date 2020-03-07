@@ -6,30 +6,19 @@ Created on Mon May 20 10:41:03 2019
 """
 
 import numpy as np 
-#import pandas as pd 
 import matplotlib.pyplot as plt
 plt.style.use('fivethirtyeight')
-#Importing the Keras libraries and packages
-from keras.layers import Flatten
-from keras.layers import Dense
-#from tensorflow.contrib.keras.api.keras.callbacks import Callback
+from keras.layers import Dense ,Flatten
 from tensorflow.contrib.keras.api.keras.preprocessing.image import ImageDataGenerator
-#from tensorflow.contrib.keras import backend
 from keras.optimizers import Adam
 from tensorflow.python.keras.models import Sequential
-
-#from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.python.keras.preprocessing.image import load_img, img_to_array
 from keras.models import load_model
 from tensorflow.python.keras.applications.resnet50 import preprocess_input
 from keras.utils import np_utils
-#import keras.backend as K
 from tensorflow.python.keras.applications import ResNet50
 from sklearn.metrics import classification_report, confusion_matrix
 from tensorflow.python.keras.layers import  GlobalAveragePooling2D, BatchNormalization
-
-
-
 import os
 
 script_dir = os.path.dirname(".")
@@ -39,13 +28,12 @@ train_set_path=os.path.join(script_dir,'train_set')
 validation_set_path = os.path.join(script_dir, 'train_set')
 test_set_path = os.path.join(script_dir, 'test_set')
 
-#resnet Ağırlıkları dizini
-resnet_weights_path = 'resnet50/resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5'
-#çıktının yakınsaması gereken adım sayısı azalır.
+
+resnet_weights_path = 'resnet50/resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5' #Resnet50 pretrained weights
 
 model = Sequential()
 model.add(ResNet50(include_top=False, pooling='avg', weights=resnet_weights_path))
-#fully connected katmanları dahil etmedik(kendimiz oluşturacağız/include_top)
+
 model.add(Flatten())
 model.add(BatchNormalization())
 model.add(Dense(2048, activation='relu'))
@@ -53,12 +41,10 @@ model.add(BatchNormalization())
 model.add(Dense(1024, activation='relu'))
 model.add(BatchNormalization())
 model.add(Dense(5, activation='softmax'))
+model.layers[0].trainable = False  # 0. katmanın ağırlıklarını güncellenmeyecek
 
-model.layers[0].trainable = False
-# 0. katmanın ağırlıklarını güncellenmeyecek
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-
-count = sum([len(files) for r, d, files in os.walk("train_set/")]) #train resimlerin sayısı
+count = sum([len(files) for r, d, files in os.walk("train_set/")])        #train resimlerin sayısı
 for l in model.layers:
     print(l.name, l.trainable)
 
@@ -108,9 +94,9 @@ model_info = model.fit_generator(training_set,
                          validation_data=validation_set,
                          validation_steps=378//batch_size)
 
-model.save_weights('my_model_weights.h5')
+model.save_weights('my_model_weights.h5')  #save model
 
-#model.load_weights('my_model_weights.h5')
+#model.load_weights('my_model_weights.h5') #load model
 
 
 scoreSeg = model.evaluate_generator(test_set,400)
@@ -138,22 +124,3 @@ from sklearn.metrics import accuracy_score
 print ('Accuracy:', accuracy_score(test_set.classes, np.argmax(predict, axis=1)))
 
 print('The testing accuracy is :',scoreSeg[1]*100, '%')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
